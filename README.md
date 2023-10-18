@@ -1,31 +1,19 @@
 # neoDNS
 
-Lightweight "DNS" that operates by returning http page
+Lightweight "DNS" that operates by using http requests
 
-## Operation
+### Development
 
-user sends the auth data to server through https, like this:
-
-```json
-{
-    "operation": "get",
-    "name": "media server",
-    "password": "12345"
-},
-{
-    "operation": "set",
-    "name": "game server",
-    "password": "abcde",
-    "address": "8.8.8.8"
-}
+```bash
+pip install -r requirements.txt
+flask run
 ```
 
-server receives the message and respond to the message:
-```json
-{
-    "1.1.1.1"
-},
-{
-    "OK"
-}
+### Deployment
+
+refer to the tutorial [here](https://flask.palletsprojects.com/en/2.3.x/tutorial/deploy/) 
+
+```bash
+pip install waitress
+waitress-serve 
 ```

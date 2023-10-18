@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools", "flask", "Werkzeug"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neoDNS"
+version = "0.1"
+dependencies = [
+    "flask",
+    "Werkzeug"
+]

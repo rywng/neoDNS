@@ -92,9 +92,9 @@ def add_address():
 
 @app.route("/set/")
 def set_ip():
-    domain_id = request.args.get("domain_name")
+    domain_id = request.args.get("domain_id")
     password = request.args.get("password")
-    new_ip = request.args.get("ip")
+    new_ip = request.args.get("new_ip")
     new_pass = request.args.get("new_pass")
 
     if not (domain_id and password):
@@ -108,7 +108,7 @@ def set_ip():
     conn = sqlite3.connect("database.db")
     if new_ip:
         conn.execute(
-            "UPDATE domains SET ip = ? WHERE id = ?", new_ip)
+            "UPDATE domains SET ip = ? WHERE id = ?", (new_ip, domain_id))
     if new_pass:
         conn.execute(
             "UPDATE domains SET password_hash = ? WHERE id = ?",

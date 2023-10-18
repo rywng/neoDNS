@@ -1,3 +1,7 @@
 .virtualenv/*
 __pycache__
 database.db
+test
+dist
+build
+neoDNS.egg-info
