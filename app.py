@@ -15,9 +15,7 @@ except KeyError:
 
 def get_random_ip(seed) -> str:
     random.seed(seed)
-    random_ip = ".".join(map(str, (random.randint(0, 255)
-                         for _ in range(4))))
-    return random_ip
+    return ".".join(map(str, (random.randint(0, 255) for _ in range(4))))
 
 
 def get_password_hash(domain_id) -> str:
@@ -38,10 +36,7 @@ def get_domains():
     conn = sqlite3.connect("database.db")
     domains = conn.execute("SELECT id, domain from domains").fetchall()
 
-    ans = ""
-    for row in domains:
-        ans += f"id: {row[0]}, name: {row[1]}<br>"
-
+    ans = "".join(f"id: {row[0]}, name: {row[1]}<br>" for row in domains)
     print(ans)
 
     return ans
@@ -51,19 +46,18 @@ def get_domains():
 def get_ip():
     domain_id = request.args.get("domain_id")
     password = request.args.get("password")
-    if not (domain_id and password):
+    if not domain_id or not password:
         return get_random_ip(domain_id)
 
     password_hash = get_password_hash(domain_id)
 
-    if security.check_password_hash(password_hash, password):
-        conn = sqlite3.connect("database.db")
-        ip = conn.execute(
-            "SELECT ip FROM domains WHERE id == ?", domain_id).fetchone()
-        ip = ip[0]
-        return ip
-    else:
+    if not security.check_password_hash(password_hash, password):
         return get_random_ip(domain_id)
+    conn = sqlite3.connect("database.db")
+    ip = conn.execute(
+        "SELECT ip FROM domains WHERE id == ?", domain_id).fetchone()
+    ip = ip[0]
+    return ip
 
 
 @app.route("/add")
